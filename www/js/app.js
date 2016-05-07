@@ -6,47 +6,50 @@
 angular.module('starter', ['ionic', 'firebase', 'starter.controllers'])
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
-  .state('index', {
-    url: '/',
-    templateUrl: 'index.html'
-  })
-  .state('contact', {
-    url: '/contact',
-    templateUrl: 'contact.html'
-});
-    
+    $stateProvider
+        .state('index', {
+            url: '/',
+            templateUrl: 'index.html'
+        })
+        .state('contacts', {
+            url: '/contacts',
+            templateUrl: 'views/contacts.html'
+        });
+
     $urlRouterProvider.otherwise('/');
 })
 
 
 .run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+    $ionicPlatform.ready(function() {
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if (window.cordova && window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.disableScroll(true);
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
+        }
+        if (window.StatusBar) {
+            // org.apache.cordova.statusbar required
+            StatusBar.styleDefault();
+        }
+    });
 })
 
 
-   // Base de donnée tâche
-.factory('ToDos', ['$firebaseArray', function($firebaseArray) {
-  var itemsRef = new Firebase('https://myfirstappionic.firebaseio.com/ToDos');
-  return $firebaseArray(itemsRef);
-}])
+// Base de donnée tâche
+.factory('ToDos', ['$firebaseArray',
+    function($firebaseArray) {
+        var itemsRef = new Firebase('https://myfirstappionic.firebaseio.com/ToDos');
+        return $firebaseArray(itemsRef);
+    }
+])
 
 
 //base de donnée contact
-.factory('Contacts', ['$firebaseArray', function($firebaseArray) {
-  var contactsRef = new Firebase('https://gestionioniccontact.firebaseio.com');
-  return $firebaseArray(contactsRef);
-}])
-;
+.factory('Contacts', ['$firebaseArray',
+    function($firebaseArray) {
+        var contactsRef = new Firebase('https://gestionioniccontact.firebaseio.com');
+        return $firebaseArray(contactsRef);
+    }
+]);
