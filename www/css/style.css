@@ -1,1 +1,55 @@
 /* Empty. Add your own CSS if you like */
+
+body {
+	background-color: #E6E6E6;
+}
+
+.navbar-default {
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
+
+
+table {
+	border-width: 1px;
+    border-color: #151414;
+    border-style: double;
+}
+
+thead {
+	background-color: rgba(0, 114, 255, 0.2);
+}
+
+.has-header {
+    top:90px;
+}
+
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+    background-color: #4288CA;
+    color: #ffffff;
+}
+
+.aligneagauche {
+	text-align: left;
+}
+
+.aligneadroite {
+	text-align: right;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.spacer {
+	margin-top:25px;
+}
+
+.active:{
+    background-color: #428bca;
+}
+
+a:hover { font-weight: bold } /* Survole des liens en gras */
+a:active { color: red } /* Liens actifs */

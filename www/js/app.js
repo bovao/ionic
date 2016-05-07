@@ -3,15 +3,28 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'firebase'])
+
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+  .state('index', {
+    url: '/',
+    templateUrl: 'index.html'
+  })
+  .state('contact', {
+    url: '/contact',
+    templateUrl: 'contact.html'
+});
+    
+    $urlRouterProvider.otherwise('/');
+})
+
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+    if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
 
@@ -23,63 +36,180 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
+   // Base de donnée tâche
+.factory('ToDos', ['$firebaseArray', function($firebaseArray) {
+  var itemsRef = new Firebase('https://myfirstappionic.firebaseio.com/ToDos');
+  return $firebaseArray(itemsRef);
+}])
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
-  })
 
-  // Each tab has its own nav history stack:
+//base de donnée contact
+.factory('Contacts', ['$firebaseArray', function($firebaseArray) {
+  var contactsRef = new Firebase('https://gestionioniccontact.firebaseio.com');
+  return $firebaseArray(contactsRef);
+}])
 
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
+.controller('ListCtrl', function($scope, $ionicPopup, $ionicLoading, ToDos, Contacts) {
+    
+    
+    /** Fenetre de chargement */
+  $ionicLoading.show({
+    template: 'Chargement...'
+  });
+    
 
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
+  /** Configuration pour la liste */
+  $scope.shouldShowDelete = false;
+  $scope.shouldShowReorder = false;
+  $scope.listCanSwipe = true;
+  
+    /**  Référence à l'objet contenant les todos (items) */
+  $scope.toDos = ToDos;
+    
+  $scope.toDos.$loaded().then(function(todo) {
+    $ionicLoading.hide();
   });
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+
+    /** Fonction responsable de modifier un ToDo */
+  $scope.editer = function (toDo) {
+
+    $scope.data = {
+      "toDoEditer": toDo.name
+    };
+
+      var myPopup = $ionicPopup.show({
+        template: '<input type="text" ng-model="data.toDoEditer">',
+        title: 'Modifier',
+        scope: $scope,
+        buttons: [
+          { text: 'Retour' },
+          {
+            text: '<b>Confirmer</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+
+              console.log($scope.data.toDoEditer);
+              if (!$scope.data.toDoEditer) {
+                console.log("Non rien de revenu");
+                //don't allow the user to close unless he enters wifi password
+                e.preventDefault();
+              } else {
+                console.log("Entrée " +  $scope.data.toDoEditer);
+
+                toDo.name = $scope.data.toDoEditer;
+
+                $scope.toDos.$save(toDo).then(function(ref) {
+                  ref.key() === toDo.$id; // true
+                  console.log("Enregistrement modifié " + toDo.$id);
+                });
+
+                return $scope.data.toDoEditer;
+              }
+            }
+          }
+        ]
+      });
+  };
+    
+    
+  /** Fonction responsable de supprimer un ToDo */
+  $scope.delete = function (item, todo) {
+
+    $scope.toDos.$remove(item).then(function(ref) {
+      ref.key() === item.$id; // true
+    });
+
+  };
+
+    
+  /** Fonction responsable d'ajouter un todo */
+  $scope.ajoutTache = function() {
+
+    $scope.data = {};
+
+    /* Fait apparaitre fenêtre pop up */
+      var myPopup = $ionicPopup.show({
+        template: '<input type="text" ng-model="data.NewTache">',
+        title: 'Entrée une tâche',
+        scope: $scope,
+        buttons: [
+          { text: 'Retour' },
+          {
+            text: '<b>Confirmer</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+
+              console.log($scope.data.NewTache);
+              if (!$scope.data.NewTache) {
+                console.log("Non rien de revenu");
+                  
+                //Ne pas laisser à l'utilisateur de fermer à moins qu'il ne pénètre le mot de passe wifi
+                e.preventDefault();
+                }
+                
+                else {
+                console.log("Entree " +  $scope.data.NewTache);
+
+                /** Il conserve dans firebase */
+                $scope.toDos.$add({
+                  "name": $scope.data.NewTache
+                });
+
+                return $scope.data.NewTache;
+              }
+            }
+          }
+        ]
+      });
+
+  };
+    
+    
+
+    
+    
+  $scope.contacts = Contacts;
+    
+$scope.purchaseContact = function(contact) {
+    var contactRef = new Firebase('gestionioniccontact.firebaseio.com' + contact.$id);
+    contactRef.child('status').set('purchased');
+    $ionicListDelegate.closeOptionButtons();
+}
+
+
+    //J'ajoute une méthode addContact
+    $scope.addContact = function() {
+    // J'ajoute dans firebase
+    $scope.contacts.$add($scope.contact);
+
+    //I return the value article a null
+    $scope.contact = null;
+};
+
+
+  /** Fonction responsable de supprimer un ToDo */
+  $scope.delete = function (item, contact) {
+
+      if (confirm("Voulez-vous supprimer cette ligne ?")) {
+
+    $scope.contacts.$remove(item).then(function(ref) {
+      ref.key() === item.$id; // true
+    });
+  }
+  };
+
+      
+    //J'ajoute une méthode selection Article, par default je l'initialise à null
+    $scope.ContactSelectionne = null;
+    
+    $scope.selectionContact = function(contact) {
+        $scope.ContactSelectionne = contact;
+    }
+        
+    $scope.modifierContact = function(contact, index) {
+      $scope.contact = $scope.contacts[index];
+    };
 
 });
