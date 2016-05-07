@@ -9,7 +9,7 @@ angular.module('starter', ['ionic', 'firebase', 'starter.controllers'])
     $stateProvider
         .state('index', {
             url: '/',
-            templateUrl: 'index.html'
+            templateUrl: 'views/accueil.html'
         })
         .state('contacts', {
             url: '/contacts',
