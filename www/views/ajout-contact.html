@@ -1,0 +1,31 @@
+<ion-view view-title="Nouveau contact">
+
+<ion-content>
+    <ion-list>
+
+        <!-- Liste des champs (Nom, Prenom, Telephone...) -->
+          <label class="item item-input">
+              <td><input type="text" ng-model="contact.Nom" placeholder="Nom"></td>
+          </label>
+
+        <label class="item item-input">
+            <td><input type="text" ng-model="contact.Prenom" placeholder="Prenom"></td>
+          </label>
+
+        <label class="item item-input">
+            <td><input type="text" ng-model="contact.Telephone" placeholder="Telephone"></td>
+          </label>
+
+        <label class="item item-input">
+            <td><input type="text" ng-model="contact.Email" placeholder="Email"></td>
+          </label>
+    </ion-list>
+
+
+        <button class="button button-full button-balanced" ng-click="addContact()">
+        Ajouter
+        </button>
+
+</ion-content>
+
+</ion-view>

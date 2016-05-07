@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['starter.services'])
 
 .controller('ListCtrl', function($scope, $ionicPopup, $ionicLoading, ToDos, Contacts) {
 
@@ -115,7 +115,7 @@ angular.module('starter.controllers', [])
 
 
 
-    $scope.contacts = Contacts;
+    $scope.contacts = Contacts.all();
 
     $scope.purchaseContact = function(contact) {
         var contactRef = new Firebase('gestionioniccontact.firebaseio.com' + contact.$id);
@@ -135,7 +135,7 @@ angular.module('starter.controllers', [])
 
 
     /** Fonction responsable de supprimer un ToDo */
-    $scope.delete = function(item, contact) {
+    $scope.deleteContact = function(item, contact) {
 
         if (confirm("Voulez-vous supprimer cette ligne ?")) {
 
@@ -175,8 +175,8 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
+.controller('ContactDetailCtrl', function($scope, $stateParams, Contacts) {
+    $scope.contactSelectionne = Contacts.get($stateParams.id);
 })
 
 .controller('AccountCtrl', function($scope) {

@@ -1,50 +1,34 @@
-angular.module('starter.services', [])
+angular.module('starter.services', ['firebase'])
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
+// Base de donnée tâche
+.factory('ToDos', ['$firebaseArray',
+    function($firebaseArray) {
+        var itemsRef = new Firebase('https://myfirstappionic.firebaseio.com/ToDos');
+        return $firebaseArray(itemsRef);
     }
-  };
+])
+
+
+//base de donnée contact
+.factory('Contacts', ['$firebaseArray',
+    function($firebaseArray) {
+        var contactsRef = new Firebase('https://gestionioniccontact.firebaseio.com');
+        return $firebaseArray(contactsRef);
+    }
+])
+
+.factory('Contacts', function($firebaseArray, $firebaseObject) {
+
+    var ref = new Firebase('https://gestionioniccontact.firebaseio.com');
+
+    return {
+        all: function() {
+            var data = $firebaseArray(ref);
+            return data;
+        },
+        get: function(id) {
+            var data = $firebaseObject(ref.child(id));
+            return data;
+        }
+    };
 });

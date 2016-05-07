@@ -1,20 +1,22 @@
+<ion-view view-title="Liste des contacts">
+
+
 <!-- liste des contacts -->
-<ion-content class="scroll-content ionic-scroll overflow-scroll" ng-show="ContactSelectionne == null">
+<ion-content>
 <div class="scroll">
   <ion-list show-delete="shouldShowDelete">
   
   <div class="list list-left-editing">
     <ion-item collection-repeat="contact in contacts| filter:filtre | orderBy:'Nom'"
-    class="item item-complex item-right-editable item-left-editable" ng-class="{purchased: contact.status == 'purchased'}"
-    ng-click="selectionContact(contact)">
+    class="item item-complex item-right-editable item-left-editable">
     <ul>
-      <li>{{contact.Nom}} {{contact.Prenom}}</li>
+      <li><a href="#/contact/{{contact.$id}}">{{contact.Nom}} {{contact.Prenom}}</a></li>
     </ul>
     
     <!-- Button edit Todo-->
-    <ion-option-button class="button-positive"
-    ng-click="editer(toDo)">
-    Editer
+    <ion-option-button class="button-assertive"
+    ng-click="deleteContact(contact)">
+    Supprimer
     </ion-option-button>
     <!-- Button del Todo -->
     <ion-delete-button class="ion-minus-circled" ng-click="delete(contact)"></ion-delete-button>
@@ -25,37 +27,10 @@
 </div>
 </ion-content>
 
+</ion-view>
 
 
-<!-- J'ajoute une méthode qui affiche le contenu dès que l'article est selectionner -->
-<div class="list list-inset" ng-show="ContactSelectionne != null" >
-  <!-- Je répete la liste des articles à afficher -->
-  <div class="container">
-    <label class="item item-input item-stacked-label">
-      <i class="icon ion-android-person"></i>
-      <span class="input-label" ng-click="modifierContact(contact)">Nom</span>
-      <input type="text" placeholder="{{ContactSelectionne.Nom}}" >
-    </label>
-    <label class="item item-input item-stacked-label">
-      <i class="icon ion-android-person"></i>
-      <span class="input-label">Prénom</span>
-      <input type="text" placeholder="{{ContactSelectionne.Prenom}}">
-    </label>
-    <label class="item item-input item-stacked-label">
-      <i class="icon ion-ios-telephone"></i>
-      <span class="input-label">Téléphone</span>
-      <input type="text" placeholder="{{ContactSelectionne.Telephone}}">
-    </label>
-    <label class="item item-input item-stacked-label">
-      <i class="icon ion-at"></i>
-      <span class="input-label">Email</span>
-      <a href="mailto:{{ContactSelectionne.Email}}">
-        <input type="text" placeholder="{{ContactSelectionne.Email}}">
-      </a>
-    </label>
-    
-  </div>
-</div>
+
 
 <!-- Footer -->
 <div class="tabs tabs-icon-top">

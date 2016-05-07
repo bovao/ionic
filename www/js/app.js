@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'firebase', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers'])
 
 .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -13,8 +13,23 @@ angular.module('starter', ['ionic', 'firebase', 'starter.controllers'])
         })
         .state('contacts', {
             url: '/contacts',
-            templateUrl: 'views/contacts.html'
-        });
+            templateUrl: 'views/contacts.html',
+            controller: 'ListCtrl'
+        })
+        .state('contactDetail', {
+            url: '/contact/:id',
+            templateUrl: 'views/detail-contact.html',
+            controller: 'ContactDetailCtrl'
+        })
+        .state('taches', {
+            url: '/taches',
+            templateUrl: 'views/taches.html',
+            controller: 'ListCtrl'
+        })
+        .state('ajout-contact', {
+            url: '/ajout-contact',
+            templateUrl: 'views/ajout-contact.html'
+        })
 
     $urlRouterProvider.otherwise('/');
 })
@@ -36,20 +51,4 @@ angular.module('starter', ['ionic', 'firebase', 'starter.controllers'])
     });
 })
 
-
-// Base de donnée tâche
-.factory('ToDos', ['$firebaseArray',
-    function($firebaseArray) {
-        var itemsRef = new Firebase('https://myfirstappionic.firebaseio.com/ToDos');
-        return $firebaseArray(itemsRef);
-    }
-])
-
-
-//base de donnée contact
-.factory('Contacts', ['$firebaseArray',
-    function($firebaseArray) {
-        var contactsRef = new Firebase('https://gestionioniccontact.firebaseio.com');
-        return $firebaseArray(contactsRef);
-    }
-]);
+;
