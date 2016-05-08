@@ -1,36 +1,32 @@
 <ion-view view-title="Liste des tâches">
-<ion-header-bar align-title="center" class="top bar-positive">
-<div class="buttons">
-  <button class="button button-icon icon ion-ios-minus-outline" ng-click="shouldShowDelete = !shouldShowDelete"></button>
-</div>
 
-<h1 class="title">Liste des tâches</h1>
+    <ion-nav-buttons side="secondary">
+        <button class="button button-icon icon ion-ios-minus-outline"
+          ng-click="shouldShowDelete = !shouldShowDelete"></button>
+    </ion-nav-buttons>
 
-
-<!-- Button add Todo -->
+<!-- Button add Todo 
 <button class="button button-icon ion-compose" ng-click="ajoutTache()"></button>
-</ion-header-bar>
-<ion-content  class="scroll-content ionic-scroll overflow-scroll">
-<div class="scroll">
-  <ion-list show-delete="shouldShowDelete">
-  <div class="list list-left-editing">
-    <ion-item ng-repeat="toDo in toDos" class="item item-complex item-right-editable item-left-editable">
-    <h2>{{toDo.name}}</h2>
-    
-    <!-- Button edit Todo-->
-    <ion-option-button class="button-positive"
-    ng-click="editer(toDo)">
-    Editer
-    </ion-option-button>
-    
-    <!-- Button del Todo -->
-    <ion-delete-button class="ion-minus-circled"
-    ng-click="delete(toDo)">
-    </ion-delete-button>
-    
-    </ion-item>
-  </div>
-  </ion-list>
-</div>
-</ion-content>
+-->
+    <ion-content  class="scroll-content ionic-scroll overflow-scroll">
+    <div class="scroll">
+      <ion-list show-delete="shouldShowDelete">
+        <div class="list list-left-editing">
+        <ion-item ng-repeat="toDo in toDos" class="item item-complex item-right-editable item-left-editable">
+            <h2>{{toDo.name}}</h2>
+
+            
+            <!-- Button edit Todo-->
+            <ion-option-button class="button-positive" ng-click="editer(toDo)">Editer
+              <ion-option-button class="button button-dark" ng-click="ajoutTache()">Ajouter</ion-option-button>
+            </ion-option-button>
+            
+            <!-- Button del Todo -->
+              <ion-delete-button class="ion-minus-circled" ng-click="delete(toDo)"></ion-delete-button>    
+            
+        </ion-item>
+      </div>
+      </ion-list>
+    </div>
+    </ion-content>
 </ion-view>

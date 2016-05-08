@@ -28,7 +28,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         })
         .state('ajout-contact', {
             url: '/ajout-contact',
-            templateUrl: 'views/ajout-contact.html'
+            templateUrl: 'views/ajout-contact.html',
+            controller: 'ListCtrl'
         })
 
     $urlRouterProvider.otherwise('/');

@@ -112,20 +112,11 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
 
-
-
-
     $scope.contacts = Contacts.all();
-
-    $scope.purchaseContact = function(contact) {
-        var contactRef = new Firebase('gestionioniccontact.firebaseio.com' + contact.$id);
-        contactRef.child('status').set('purchased');
-        $ionicListDelegate.closeOptionButtons();
-    }
-
 
     //J'ajoute une méthode addContact
     $scope.addContact = function() {
+        debugger;
         // J'ajoute dans firebase
         $scope.contacts.$add($scope.contact);
 
@@ -153,34 +144,9 @@ angular.module('starter.controllers', ['starter.services'])
         $scope.ContactSelectionne = contact;
     }
 
-    $scope.modifierContact = function(contact, index) {
-        $scope.contact = $scope.contacts[index];
-    };
-
-
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-        Chats.remove(chat);
-    };
-})
 
 .controller('ContactDetailCtrl', function($scope, $stateParams, Contacts) {
     $scope.contactSelectionne = Contacts.get($stateParams.id);
 })
-
-.controller('AccountCtrl', function($scope) {
-    $scope.settings = {
-        enableFriends: true
-    };
-});
