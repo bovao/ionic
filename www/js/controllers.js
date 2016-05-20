@@ -42,12 +42,6 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('TacheCtrl', function($scope, $ionicPopup, $ionicLoading, ToDos) {
 
-    /** Fenetre de chargement */
-    $ionicLoading.show({
-        template: 'Chargement...'
-    });
-
-
     /** Configuration pour la liste */
     $scope.shouldShowDelete = false;
     $scope.shouldShowReorder = false;
