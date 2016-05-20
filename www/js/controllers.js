@@ -1,6 +1,46 @@
 angular.module('starter.controllers', ['starter.services'])
 
-.controller('ListCtrl', function($scope, $ionicPopup, $ionicLoading, ToDos, Contacts) {
+.controller('ContactCtrl', function($scope, $ionicPopup, $ionicLoading, Contacts) {
+
+
+    $scope.contacts = Contacts.all();
+
+    //J'ajoute une méthode addContact
+    $scope.addContact = function(newContact) {
+
+        $scope.contacts.$add(newContact);
+
+        // J'ajoute dans firebase
+        alert("Nouveau contact ajouté");
+
+        //I return the value article a null
+        $scope.contact = null;
+    };
+
+
+    /** Fonction responsable de supprimer un ToDo */
+    $scope.deleteContact = function(item, contact) {
+
+        if (confirm("Voulez-vous supprimer cette ligne ?")) {
+
+            $scope.contacts.$remove(item).then(function(ref) {
+                ref.key() === item.$id; // true
+            });
+        }
+    };
+
+
+    //J'ajoute une méthode selection Article, par default je l'initialise à null
+    $scope.ContactSelectionne = null;
+
+    $scope.selectionContact = function(contact) {
+        $scope.ContactSelectionne = contact;
+    }
+
+})
+
+
+.controller('TacheCtrl', function($scope, $ionicPopup, $ionicLoading, ToDos) {
 
     /** Fenetre de chargement */
     $ionicLoading.show({
@@ -88,61 +128,18 @@ angular.module('starter.controllers', ['starter.services'])
                 text: '<b>Confirmer</b>',
                 type: 'button-positive',
                 onTap: function(e) {
+                    /** Il conserve dans firebase */
+                    $scope.toDos.$add({
+                        "name": $scope.data.NewTache
+                    });
 
-                    console.log($scope.data.NewTache);
-                    if (!$scope.data.NewTache) {
-                        console.log("Non rien de revenu");
+                    return $scope.data.NewTache;
 
-                        //Ne pas laisser à l'utilisateur de fermer à moins qu'il ne pénètre le mot de passe wifi
-                        e.preventDefault();
-                    } else {
-                        console.log("Entree " + $scope.data.NewTache);
-
-                        /** Il conserve dans firebase */
-                        $scope.toDos.$add({
-                            "name": $scope.data.NewTache
-                        });
-
-                        return $scope.data.NewTache;
-                    }
                 }
             }]
         });
 
     };
-
-
-    $scope.contacts = Contacts.all();
-
-    //J'ajoute une méthode addContact
-    $scope.addContact = function() {
-        debugger;
-        // J'ajoute dans firebase
-        $scope.contacts.$add($scope.contact);
-
-        //I return the value article a null
-        $scope.contact = null;
-    };
-
-
-    /** Fonction responsable de supprimer un ToDo */
-    $scope.deleteContact = function(item, contact) {
-
-        if (confirm("Voulez-vous supprimer cette ligne ?")) {
-
-            $scope.contacts.$remove(item).then(function(ref) {
-                ref.key() === item.$id; // true
-            });
-        }
-    };
-
-
-    //J'ajoute une méthode selection Article, par default je l'initialise à null
-    $scope.ContactSelectionne = null;
-
-    $scope.selectionContact = function(contact) {
-        $scope.ContactSelectionne = contact;
-    }
 
 })
 

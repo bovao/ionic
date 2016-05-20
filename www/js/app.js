@@ -14,23 +14,24 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         .state('contacts', {
             url: '/contacts',
             templateUrl: 'views/contacts.html',
-            controller: 'ListCtrl'
+            controller: 'ContactCtrl'
         })
         .state('contactDetail', {
             url: '/contact/:id',
             templateUrl: 'views/detail-contact.html',
             controller: 'ContactDetailCtrl'
         })
-        .state('taches', {
-            url: '/taches',
-            templateUrl: 'views/taches.html',
-            controller: 'ListCtrl'
-        })
         .state('ajout-contact', {
             url: '/ajout-contact',
             templateUrl: 'views/ajout-contact.html',
-            controller: 'ListCtrl'
+            controller: 'ContactCtrl'
         })
+        .state('taches', {
+            url: '/taches',
+            templateUrl: 'views/taches.html',
+            controller: 'TacheCtrl'
+        })
+
 
     $urlRouterProvider.otherwise('/');
 })
