@@ -1,11 +1,7 @@
 <ion-view view-title="Détail du contact">
     <ion-nav-buttons side="secondary">
-      <button class="button" ng-click="EditerContact(ContactSelectionne)" ng-if="modeLecture">
-        Editer
-      </button>
-      <button class="button" ng-click="sauverContact(ContactSelectionne)" ng-if="!modeLecture">
-        Sauver
-      </button>
+      <button class="button" ng-click="EditerContact()" ng-if="modeLecture">Editer</button>
+      <button class="button" ng-click="sauverContact(contactSelectionne)" ng-if="!modeLecture">Sauver</button>
     </ion-nav-buttons>
 <ion-content>
 
@@ -15,27 +11,27 @@
   <div class="container">
     <label class="item item-input item-stacked-label">
       <i class="icon ion-android-person"></i>
-      <span class="input-label" ng-click="modifierContact(contact)">Nom</span>
-      <input type="text" placeholder="Saissisez un nom" ng-model="contactSelectionne.Nom" ng-readonly="modeLecture">
+      <span class="input-label">Nom</span>
+      <input type="text" placeholder="Saisisez un nom" ng-model="contactSelectionne.Nom" ng-readonly="modeLecture">
     </label>
 
     <label class="item item-input item-stacked-label">
       <i class="icon ion-android-person"></i>
       <span class="input-label">Prénom</span>
-      <input type="text" placeholder="{{contactSelectionne.Prenom}}">
+      <input type="text" placeholder="Saisisez un prénom" ng-model="contactSelectionne.Prenom" ng-readonly="modeLecture">
     </label>
 
     <label class="item item-input item-stacked-label">
       <i class="icon ion-ios-telephone"></i>
       <span class="input-label">Téléphone</span>
-      <input type="text" placeholder="{{contactSelectionne.Telephone}}">
+      <input type="text" placeholder="Saisissez un numéro de téléphone" ng-model="contactSelectionne.Telephone" ng-readonly="modeLecture">
     </label>
 
     <label class="item item-input item-stacked-label">
       <i class="icon ion-at"></i>
       <span class="input-label">Email</span>
       <a href="mailto:{{contactSelectionne.Email}}">
-        <input type="text" placeholder="{{contactSelectionne.Email}}">
+        <input type="text" placeholder="Saisissez un Email" ng-model="contactSelectionne.Email" ng-readonly="modeLecture">
       </a>
     </label>
     

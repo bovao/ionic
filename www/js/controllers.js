@@ -18,7 +18,7 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
 
-    /** Fonction responsable de supprimer un ToDo */
+    /** Fonction responsable de supprimer un contact */
     $scope.deleteContact = function(item, contact) {
 
         if (confirm("Voulez-vous supprimer cette ligne ?")) {
@@ -47,10 +47,12 @@ angular.module('starter.controllers', ['starter.services'])
         $scope.modeLecture = false;
     };
 
-
     $scope.sauverContact = function(newContact) {
         $scope.modeLecture = true
-        $scope.contactSelectionne = Contacts.update(newContact); //        $scope.contacts.$add(newContact).set;
+
+        $scope.contactSelectionne.$save(newContact).then(function(ref) {
+            ref.key() === newContact.$val; // true
+        });
     }
 })
 
