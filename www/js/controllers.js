@@ -59,10 +59,11 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('TacheCtrl', function($scope, $ionicPopup, $ionicLoading, ToDos) {
 
-    /** Configuration pour la liste */
-    $scope.shouldShowDelete = false;
-    $scope.shouldShowReorder = false;
-    $scope.listCanSwipe = true;
+
+    $scope.data = {
+        showDelete: false
+    };
+
 
     /**  Référence à l'objet contenant les todos (items) */
     $scope.toDos = ToDos;
@@ -70,6 +71,19 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.toDos.$loaded().then(function(todo) {
         $ionicLoading.hide();
     });
+
+
+    /** Fonction responsable de supprimer un ToDo */
+    $scope.delete = function(item, todo) {
+
+        if (confirm("Voulez-vous supprimer cette ligne ?")) {
+            $scope.toDos.$remove(item).then(function(ref) {
+                ref.key() === item.$id; // true
+                console.log("ID: " + item.$id + " Est eliminée");
+            });
+        }
+    }
+
 
 
     /** Fonction responsable de modifier un ToDo */
@@ -110,16 +124,6 @@ angular.module('starter.controllers', ['starter.services'])
                 }
             }]
         });
-    };
-
-
-    /** Fonction responsable de supprimer un ToDo */
-    $scope.delete = function(item, todo) {
-
-        $scope.toDos.$remove(item).then(function(ref) {
-            ref.key() === item.$id; // true
-        });
-
     };
 
 
