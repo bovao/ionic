@@ -39,6 +39,21 @@ angular.module('starter.controllers', ['starter.services'])
 
 })
 
+.controller('ContactDetailCtrl', function($scope, $stateParams, Contacts) {
+    $scope.contactSelectionne = Contacts.get($stateParams.id);
+    $scope.modeLecture = true;
+
+    $scope.EditerContact = function() {
+        $scope.modeLecture = false;
+    };
+
+
+    $scope.sauverContact = function(newContact) {
+        $scope.modeLecture = true
+        $scope.contactSelectionne = Contacts.update(newContact); //        $scope.contacts.$add(newContact).set;
+    }
+})
+
 
 .controller('TacheCtrl', function($scope, $ionicPopup, $ionicLoading, ToDos) {
 
@@ -135,9 +150,4 @@ angular.module('starter.controllers', ['starter.services'])
 
     };
 
-})
-
-
-.controller('ContactDetailCtrl', function($scope, $stateParams, Contacts) {
-    $scope.contactSelectionne = Contacts.get($stateParams.id);
 })

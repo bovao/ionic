@@ -1,7 +1,10 @@
 <ion-view view-title="Détail du contact">
     <ion-nav-buttons side="secondary">
-      <button class="button" ng-click="EditerContact(ContactSelectionne)">
+      <button class="button" ng-click="EditerContact(ContactSelectionne)" ng-if="modeLecture">
         Editer
+      </button>
+      <button class="button" ng-click="sauverContact(ContactSelectionne)" ng-if="!modeLecture">
+        Sauver
       </button>
     </ion-nav-buttons>
 <ion-content>
@@ -13,7 +16,7 @@
     <label class="item item-input item-stacked-label">
       <i class="icon ion-android-person"></i>
       <span class="input-label" ng-click="modifierContact(contact)">Nom</span>
-      <input type="text" placeholder="{{contactSelectionne.Nom}}" >
+      <input type="text" placeholder="Saissisez un nom" ng-model="contactSelectionne.Nom" ng-readonly="modeLecture">
     </label>
 
     <label class="item item-input item-stacked-label">
